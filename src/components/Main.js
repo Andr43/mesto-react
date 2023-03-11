@@ -1,14 +1,14 @@
 import profileAvatar from "../images/profile__avatar.jpg";
-import React from "react";
+import {useEffect, useState} from "react";
 import api from "../utils/Api";
 import Card from "./Card";
 
 function Main(props) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);
-  const [isMouseOverAvatar, setIsMouseOverAvatar] = React.useState(false);
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
+  const [isMouseOverAvatar, setIsMouseOverAvatar] = useState(false);
   const classNameEditImage = `${isMouseOverAvatar ? "visible" : "invisible"}`;
 
   function handleClick(card) {
@@ -19,7 +19,7 @@ function Main(props) {
     setIsMouseOverAvatar(!isMouseOverAvatar);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
       .then(([userInfo, cardInfo]) => {
         setUserName(userInfo.name);

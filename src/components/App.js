@@ -1,5 +1,5 @@
 import "../index.css";
-import React from "react";
+import {useState} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -7,33 +7,27 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const [isPopupEditOpened, setIsPopupEditOpened] = React.useState(false);
+  const [isPopupEditOpened, setIsPopupEditOpened] = useState(false);
   const [isPopupAddPlaceOpened, setIsPopupAddPlaceOpened] =
-    React.useState(false);
+    useState(false);
   const [isPopupEditImageOpened, setIsPopupEditImageOpened] =
-    React.useState(false);
+    useState(false);
   const [isPopupDeleteCardOpened, setIsPopupDeleteCardOpened] =
-    React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState({});
-  const classNameEdit = `${isPopupEditOpened ? "visible" : "invisible"}`;
-  const classNameAdd = `${isPopupAddPlaceOpened ? "visible" : "invisible"}`;
-  const classNameDelete = `${
-    isPopupDeleteCardOpened ? "visible" : "invisible"
-  }`;
-  const classNameEditImage = `${
-    isPopupEditImageOpened ? "visible" : "invisible"
-  }`;
-  const classNamePopupImage = `${
-    Object.keys(selectedCard).length === 0 ? "invisible" : "visible"
-  }`;
+    useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   function handleEscClose(esc) {
     if (esc.key === "Escape" || esc.key === "Esc") {
-      setIsPopupEditOpened(isPopupEditOpened);
-      setIsPopupAddPlaceOpened(isPopupAddPlaceOpened);
-      setIsPopupEditImageOpened(isPopupEditImageOpened);
-      setIsPopupDeleteCardOpened(isPopupDeleteCardOpened);
-      setSelectedCard({});
+
+      setIsPopupEditOpened(isPopupEditOpened); 
+
+      setIsPopupAddPlaceOpened(isPopupAddPlaceOpened); 
+
+      setIsPopupEditImageOpened(isPopupEditImageOpened); 
+
+      setIsPopupDeleteCardOpened(isPopupDeleteCardOpened); 
+
+      setSelectedCard({}); 
     }
   }
 
@@ -60,66 +54,44 @@ function App() {
     document.addEventListener("keydown", handleEscClose);
   }
 
-  function handlePopupMouseDown(evt, state, setState) {
-    if (evt.target.classList.contains("visible")) {
-      if (typeof state == "boolean") {
-        setState(!state);
-      } else {
-        setState({});
-      }
-    } else if (
-      evt.target.classList.contains("popup__container") ||
-      evt.target.classList.contains("popup__form") ||
-      evt.target.classList.contains("popup__heading") ||
-      evt.target.classList.contains("popup__field") ||
-      evt.target.classList.contains("popup__error") ||
-      evt.target.classList.contains("popup__button_save") ||
-      evt.target.classList.contains("popup-image__container") ||
-      evt.target.classList.contains("popup-image__image") ||
-      evt.target.classList.contains("popup-image__heading")
-    ) {
-      setState(state);
-    }
-  }
-
   function closeAllPopups(evt) {
-    if (isPopupEditOpened === true) {
-      setIsPopupEditOpened(!isPopupEditOpened);
-      document.removeEventListener("keydown", handleEscClose);
-      handlePopupMouseDown(evt, isPopupEditOpened, setIsPopupEditOpened);
-    }
-    if (isPopupAddPlaceOpened === true) {
-      setIsPopupAddPlaceOpened(!isPopupAddPlaceOpened);
-      document.removeEventListener("keydown", handleEscClose);
-      handlePopupMouseDown(
-        evt,
-        isPopupAddPlaceOpened,
-        setIsPopupAddPlaceOpened
-      );
-    }
-    if (isPopupEditImageOpened === true) {
-      setIsPopupEditImageOpened(!isPopupEditImageOpened);
-      document.removeEventListener("keydown", handleEscClose);
-      handlePopupMouseDown(
-        evt,
-        isPopupEditImageOpened,
-        setIsPopupEditImageOpened
-      );
-    }
-    if (isPopupDeleteCardOpened === true) {
-      setIsPopupDeleteCardOpened(!isPopupDeleteCardOpened);
-      document.removeEventListener("keydown", handleEscClose);
-      handlePopupMouseDown(
-        evt,
-        isPopupDeleteCardOpened,
-        setIsPopupDeleteCardOpened
-      );
-    }
-    if (selectedCard !== {}) {
+
+      setIsPopupEditOpened(false);
+    
+      setIsPopupAddPlaceOpened(false);
+    
+      setIsPopupEditImageOpened(false);
+      
+      setIsPopupDeleteCardOpened(false);
+    
       setSelectedCard({});
+
+      if (evt.target.classList.contains("visible")) {
+          setIsPopupEditOpened(false);
+          setIsPopupAddPlaceOpened(false);
+          setIsPopupEditImageOpened(false);
+          setIsPopupDeleteCardOpened(false);
+          setSelectedCard({});
+        }
+      else if (
+        evt.target.classList.contains("popup__container") ||
+        evt.target.classList.contains("popup__form") ||
+        evt.target.classList.contains("popup__heading") ||
+        evt.target.classList.contains("popup__field") ||
+        evt.target.classList.contains("popup__error") ||
+        evt.target.classList.contains("popup__button_save") ||
+        evt.target.classList.contains("popup-image__container") ||
+        evt.target.classList.contains("popup-image__image") ||
+        evt.target.classList.contains("popup-image__heading")
+      ) {
+        setIsPopupEditOpened(isPopupEditOpened);
+          setIsPopupAddPlaceOpened(isPopupAddPlaceOpened);
+          setIsPopupEditImageOpened(isPopupEditImageOpened);
+          setIsPopupDeleteCardOpened(isPopupDeleteCardOpened);
+          setSelectedCard(selectedCard);
+      };
+      
       document.removeEventListener("keydown", handleEscClose);
-      handlePopupMouseDown(evt, selectedCard, setSelectedCard);
-    }
   }
 
   return (
@@ -133,12 +105,11 @@ function App() {
       />
       <Footer />
       <PopupWithForm
-        isOpen={classNameEdit}
+        isOpen={isPopupEditOpened}
         onClose={closeAllPopups}
         onMouseDown={closeAllPopups}
         name="edit"
         title="Редактировать профиль"
-        buttonName="Сохранить"
       >
         {" "}
         <input
@@ -163,7 +134,7 @@ function App() {
         <span className="popup__error job-error"></span>{" "}
       </PopupWithForm>
       <PopupWithForm
-        isOpen={classNameAdd}
+        isOpen={isPopupAddPlaceOpened}
         onClose={closeAllPopups}
         onMouseDown={closeAllPopups}
         name="add"
@@ -191,7 +162,7 @@ function App() {
         <span className="popup__error source-error"></span>{" "}
       </PopupWithForm>
       <PopupWithForm
-        isOpen={classNameDelete}
+        isOpen={isPopupDeleteCardOpened}
         onClose={closeAllPopups}
         onMouseDown={closeAllPopups}
         name="delete"
@@ -199,12 +170,11 @@ function App() {
         buttonName="Да"
       />
       <PopupWithForm
-        isOpen={classNameEditImage}
+        isOpen={isPopupEditImageOpened}
         onClose={closeAllPopups}
         onMouseDown={closeAllPopups}
         name="edit-avatar"
         title="Обновить аватар"
-        buttonName="Сохранить"
       >
         {" "}
         <input
@@ -217,7 +187,6 @@ function App() {
         <span className="popup__error avatar-error"></span>{" "}
       </PopupWithForm>
       <ImagePopup
-        isOpen={classNamePopupImage}
         card={selectedCard}
         onClose={closeAllPopups}
         onMouseDown={closeAllPopups}

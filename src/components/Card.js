@@ -8,7 +8,7 @@ function Card(props) {
       <img
         src={props.card.link}
         onClick={handleCardClick}
-        alt="картинка карточки с местом"
+        alt={props.card.name}
         className="card__image"
       />
       <div className="card__flex">
