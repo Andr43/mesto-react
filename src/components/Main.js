@@ -68,7 +68,6 @@ function Main(props) {
             <Card
               key={props._id}
               card={props}
-              userId={userInfo.id}
               onCardClick={handleImageClick}
               onLikeClick={handleLikeClick}
               onDeleteClick={handleDeleteButtonClick}

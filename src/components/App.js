@@ -11,7 +11,7 @@ import DeleteCardPopup from "./DeleteCardPopup";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
-import api from "../utils/Api";
+import api from "../utils/api";
 
 function App() {
   const [isPopupEditOpened, setIsPopupEditOpened] = useState(false);
