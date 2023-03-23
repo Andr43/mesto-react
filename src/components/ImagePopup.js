@@ -2,7 +2,7 @@ function ImagePopup(props) {
   return (
     <div
       className={`popup popup-image ${
-        Object.keys(props.card).length === 0 ? "invisible" : "visible"
+        props.card.name ? "visible" : "invisible"
       }`}
       onMouseDown={props.onMouseDown}
     >

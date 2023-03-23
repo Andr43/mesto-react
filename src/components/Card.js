@@ -1,6 +1,21 @@
 function Card(props) {
+  const isOwn = props.card.owner._id === props.userId;
+  const isLiked = props.card.likes.some((i) => i._id === props.userId);
+
   function handleCardClick() {
     props.onCardClick(props.card);
+  }
+
+  function handleLikeClick() {
+    props.onLikeClick(props.card);
+  }
+
+  function handleDeleteCard() {
+    props.onDeleteCard(props.card);
+  }
+
+  function handleOpenPopupDelete() {
+    props.onDeleteClick();
   }
 
   return (
@@ -17,16 +32,22 @@ function Card(props) {
           <button
             aria-label="добавить в избранное"
             type="button"
-            className="card__button card__button_like"
+            onClick={handleLikeClick}
+            className={`card__button card__button_like ${
+              isLiked && "card__button_like_active"
+            }`}
           ></button>
           <p className="card__likes">{props.card.likes.length}</p>
         </div>
       </div>
-      <button
-        aria-label="удалить карточку"
-        type="button"
-        className="card__button card__button_delete"
-      ></button>
+      {isOwn && (
+        <button
+          aria-label="удалить карточку"
+          type="button"
+          className="card__button card__button_delete"
+          onClick={handleDeleteCard}
+        />
+      )}
     </li>
   );
 }

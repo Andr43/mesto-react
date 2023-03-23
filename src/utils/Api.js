@@ -43,7 +43,7 @@ class Api {
     }).then(this._checkStatus);
   }
 
-  addNewCard(data) {
+  addNewCard(heading, source) {
     return fetch(this._url + "/cards", {
       method: "POST",
       headers: {
@@ -51,8 +51,8 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: data.heading,
-        link: data.source,
+        name: heading,
+        link: source,
       }),
     }).then(this._checkStatus);
   }
@@ -66,18 +66,9 @@ class Api {
     }).then(this._checkStatus);
   }
 
-  putLike(id) {
+  changeLikeCardStatus(id, isLiked) {
     return fetch(this._url + "/cards/" + id + "/likes", {
-      method: "PUT",
-      headers: {
-        authorization: this._authorizationCode,
-      },
-    }).then(this._checkStatus);
-  }
-
-  deleteLike(id) {
-    return fetch(this._url + "/cards/" + id + "/likes", {
-      method: "DELETE",
+      method: `${isLiked ? "PUT" :  "DELETE"}`,
       headers: {
         authorization: this._authorizationCode,
       },

@@ -1,45 +1,38 @@
-import profileAvatar from "../images/profile__avatar.jpg";
-import {useEffect, useState} from "react";
-import api from "../utils/Api";
+import { useState, useContext } from "react";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-  const [cards, setCards] = useState([]);
   const [isMouseOverAvatar, setIsMouseOverAvatar] = useState(false);
   const classNameEditImage = `${isMouseOverAvatar ? "visible" : "invisible"}`;
+  const userInfo = useContext(CurrentUserContext);
 
-  function handleClick(card) {
+  function handleImageClick(card) {
     props.onCardImageClick(card);
+  }
+
+  function handleLikeClick(card) {
+    props.onLikeClick(card);
+  }
+
+  function handleDeleteCard(card) {
+    props.onDeleteCard(card);
   }
 
   function hoverUserImage() {
     setIsMouseOverAvatar(!isMouseOverAvatar);
   }
 
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userInfo, cardInfo]) => {
-        setUserName(userInfo.name);
-        setUserDescription(userInfo.about);
-        setUserAvatar(userInfo.avatar);
-        setCards(cardInfo);
-      })
-      .catch(() => {
-        setUserName("Жак-Ив Кусто");
-        setUserDescription("Исследователь океана");
-        setUserAvatar(profileAvatar);
-      });
-  }, []);
+  function handleDeleteButtonClick() {
+    props.onDeleteButtonClick();
+  }
 
   return (
     <main className="main">
       <section className="profile">
         <div className="profile__avatar">
           <img
-            src={userAvatar}
+            src={userInfo.avatar}
             alt="аватар"
             className="profile__image"
             onMouseEnter={hoverUserImage}
@@ -54,7 +47,7 @@ function Main(props) {
             ></button>
           </div>
         </div>
-        <h1 className="profile__name">{userName}</h1>
+        <h1 className="profile__name">{userInfo.name}</h1>
         <button
           aria-label="перейти к полям ввода для изменения профиля"
           type="button"
@@ -67,12 +60,20 @@ function Main(props) {
           className="profile__button profile__button_add"
           onClick={props.onAddPlace}
         ></button>
-        <p className="profile__job">{userDescription}</p>
+        <p className="profile__job">{userInfo.about}</p>
       </section>
       <section className="elements">
         <ul className="elements__list">
-          {cards.map(({ ...props }) => (
-            <Card key={props._id} card={props} onCardClick={handleClick} />
+          {props.cards.map(({ ...props }) => (
+            <Card
+              key={props._id}
+              card={props}
+              userId={userInfo.id}
+              onCardClick={handleImageClick}
+              onLikeClick={handleLikeClick}
+              onDeleteClick={handleDeleteButtonClick}
+              onDeleteCard={handleDeleteCard}
+            />
           ))}
         </ul>
       </section>

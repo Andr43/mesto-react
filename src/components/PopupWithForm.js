@@ -1,7 +1,9 @@
 function PopupWithForm(props) {
   return (
     <div
-      className={`popup popup_type_${props.name} ${props.isOpen ? "visible" : "invisible"}`}
+      className={`popup popup_type_${props.name} ${
+        props.isOpen ? "visible" : "invisible"
+      }`}
       onMouseDown={props.onMouseDown}
     >
       <div className="popup__container">
@@ -11,6 +13,7 @@ function PopupWithForm(props) {
           name={props.name}
           action="#"
           id=""
+          onSubmit={props.onSubmit}
           noValidate
         >
           {props.children}
@@ -19,7 +22,7 @@ function PopupWithForm(props) {
             className={`popup__button popup__button_save popup__button_save_${props.name}`}
             type="submit"
           >
-            {props.buttonName || 'Сохранить'}
+            {props.buttonName || "Сохранить"}
           </button>
         </form>
         <button
