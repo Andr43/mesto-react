@@ -52,7 +52,7 @@ class Api {
       },
       body: JSON.stringify({
         name: heading,
-        link: ~source,
+        link: source,
       }),
     }).then(this._checkStatus);
   }
