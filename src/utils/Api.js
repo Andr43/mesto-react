@@ -9,7 +9,7 @@ class Api {
       return res.json();
     }
     return Promise.reject(
-      `Ошибка: ${res.status}. Проверьте правильность указанного URL-адреса.`
+      `Ошибка: ${res.status}. Проверьте правильность введенных данных.`
     );
   }
 

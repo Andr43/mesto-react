@@ -1,13 +1,24 @@
 import PopupWithForm from "./PopupWithForm";
-import { useRef } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditAvatarProfile(props) {
   const imageRef = useRef();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const currentUser = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser, props.isOpen]);
 
   function handleFormSubmit(e) {
     e.preventDefault();
 
     props.onUpdateAvatar({
+      name,
+      about: description,
       avatar: imageRef.current.value,
     });
   }

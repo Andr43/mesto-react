@@ -41,6 +41,7 @@ function AddPlacePopup(props) {
         minLength="2"
         maxLength="30"
         onChange={handleInputCardNameChange}
+        value={cardName}
         required
       />
       <span className="popup__error heading-error"></span>
@@ -50,6 +51,7 @@ function AddPlacePopup(props) {
         className="popup__field popup__field_source"
         type="url"
         onChange={handleInputCardLinkChange}
+        value={cardLink}
         required
       />
       <span className="popup__error source-error"></span>{" "}
