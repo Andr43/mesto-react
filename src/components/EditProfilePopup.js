@@ -5,13 +5,11 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function EditProfilePopup(props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [avatar, setAvatar] = useState("");
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-    setAvatar(currentUser.avatar);
   }, [currentUser, props.isOpen]);
 
   function handleInputNameChange(e) {
@@ -28,7 +26,6 @@ function EditProfilePopup(props) {
     props.onUpdateUser({
       name,
       about: description,
-      avatar,
     });
   }
 

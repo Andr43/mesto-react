@@ -148,25 +148,24 @@ function App() {
     document.removeEventListener("keydown", handleEscClose);
   }
 
-  function handleUpdateUser({ name, about, avatar }) {
+  function handleUpdateUser({ name, about }) {
     api.updateUserInfo(name, about).catch((err) => {
       showError(err);
     });
     setCurrentUser({
+      ...currentUser,
       name: name,
       about: about,
-      avatar: avatar,
     });
     setIsPopupEditOpened(false);
   }
 
-  function handleUpdateAvatar({ name, about, avatar }) {
+  function handleUpdateAvatar({ avatar }) {
     api.updateUserImage(avatar).catch((err) => {
       showError(err);
     });
     setCurrentUser({
-      name: name,
-      about: about,
+      ...currentUser,
       avatar: avatar,
     });
     setIsPopupEditImageOpened(false);
